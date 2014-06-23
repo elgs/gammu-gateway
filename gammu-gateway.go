@@ -12,7 +12,7 @@ import (
 
 func main() {
 	http.HandleFunc("/send", sendSmsHandler)
-	log.Fatal(http.ListenAndServe(":5137", nil))
+	log.Fatal(http.ListenAndServe("192.168.7.169:5137", nil))
 }
 
 var sendSmsHandler = func(w http.ResponseWriter, r *http.Request) {
