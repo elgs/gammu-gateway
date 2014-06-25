@@ -16,6 +16,11 @@ func main() {
 }
 
 var sendSmsHandler = func(w http.ResponseWriter, r *http.Request) {
+	defer func() {
+		if err := recover(); err != nil {
+			fmt.Println(err)
+		}
+	}()
 	phoneNumber := r.FormValue("phone_number")
 	message := r.FormValue("message")
 	if utf8.RuneCountInString(phoneNumber) != 11 {
@@ -31,6 +36,11 @@ var sendSmsHandler = func(w http.ResponseWriter, r *http.Request) {
 }
 
 var sendSms = func(phoneNumber string, message string) {
+	defer func() {
+		if err := recover(); err != nil {
+			fmt.Println(err)
+		}
+	}()
 	command := fmt.Sprint("/usr/bin/gammu sendsms TEXT ", phoneNumber, " -unicode -text '", message, "'")
 	out, err := exec.Command("sh", "-c", command).Output()
 	if err != nil {
