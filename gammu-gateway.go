@@ -18,7 +18,7 @@ func main() {
 var sendSmsHandler = func(w http.ResponseWriter, r *http.Request) {
 	defer func() {
 		if err := recover(); err != nil {
-			fmt.Println(err)
+			fmt.Println("Failed to handle request:", err)
 		}
 	}()
 	phoneNumber := r.FormValue("phone_number")
@@ -38,13 +38,13 @@ var sendSmsHandler = func(w http.ResponseWriter, r *http.Request) {
 var sendSms = func(phoneNumber string, message string) {
 	defer func() {
 		if err := recover(); err != nil {
-			fmt.Println(err)
+			fmt.Println("Failed to send:", err)
 		}
 	}()
 	command := fmt.Sprint("/usr/bin/gammu sendsms TEXT ", phoneNumber, " -unicode -text '", message, "'")
 	out, err := exec.Command("sh", "-c", command).Output()
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal("Failed to execute:", err)
 	}
-	fmt.Printf("%s\n", out)
+	fmt.Printf("gammu output %s\n", out)
 }
