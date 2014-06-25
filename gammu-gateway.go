@@ -31,7 +31,7 @@ var sendSmsHandler = func(w http.ResponseWriter, r *http.Request) {
 		phoneNumber = fmt.Sprint("+86", phoneNumber)
 	}
 	fmt.Println(phoneNumber, message)
-	sendSms(phoneNumber, message)
+	go sendSms(phoneNumber, message)
 	fmt.Fprintf(w, "OK.")
 }
 
@@ -44,7 +44,7 @@ var sendSms = func(phoneNumber string, message string) {
 	command := fmt.Sprint("/usr/bin/gammu sendsms TEXT ", phoneNumber, " -unicode -text '", message, "'")
 	out, err := exec.Command("sh", "-c", command).CombinedOutput()
 	if err != nil {
-		log.Fatal("Failed to execute:", err)
+		fmt.Println("Failed to execute:", err)
 	}
-	fmt.Printf("gammu output %s\n", out)
+	fmt.Printf("gammu output: ", out)
 }
