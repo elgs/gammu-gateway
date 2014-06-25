@@ -46,5 +46,5 @@ var sendSms = func(phoneNumber string, message string) {
 	if err != nil {
 		fmt.Println("Failed to execute:", err)
 	}
-	fmt.Printf("gammu output: ", out)
+	fmt.Printf("gammu output: ", string(out))
 }
